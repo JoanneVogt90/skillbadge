@@ -10,6 +10,7 @@ export const baseBuilderDataSuffix = (process.env.NEXT_PUBLIC_BASE_BUILDER_DATA_
 
 const config = createConfig({
   chains: [base, baseSepolia],
+  multiInjectedProviderDiscovery: false,
   connectors: [
     injected({
       target: {

@@ -48,6 +48,15 @@ function getWalletMenuKey(name: string) {
   return normalizedName.replace(/\s+/g, '-');
 }
 
+function getWalletMenuLabel(name: string) {
+  const walletKey = getWalletMenuKey(name);
+
+  if (walletKey === 'okx') return 'OKX Wallet';
+  if (walletKey === 'metamask') return 'MetaMask';
+
+  return name;
+}
+
 function BadgeApp() {
   const { address, isConnected } = useAccount();
   const chainId = useChainId();
@@ -57,6 +66,7 @@ function BadgeApp() {
   const [walletMenuOpen, setWalletMenuOpen] = useState(false);
   const [instantClaimedIds, setInstantClaimedIds] = useState<number[]>([]);
   const [autoConnectTried, setAutoConnectTried] = useState(false);
+  const [identityShared, setIdentityShared] = useState(false);
   const [selectedBadgeId, setSelectedBadgeId] = useState(skillBadges[0].id);
 
   const selectedBadge = skillBadges.find((badge) => badge.id === selectedBadgeId) ?? skillBadges[0];
@@ -121,10 +131,15 @@ function BadgeApp() {
     ? 'Switch to Base to write this badge onchain.'
     : !contractConfigured
       ? 'Onchain claiming is waiting for a contract address. Your instant badge preview still works now.'
+      : !isConnected
+        ? 'Connect your wallet before claiming an onchain skill badge.'
       : getErrorMessage(writeError || receiptError);
 
   const handleClaim = () => {
-    setInstantClaimedIds((ids) => (ids.includes(selectedBadge.id) ? ids : [...ids, selectedBadge.id]));
+    if (!isConnected) {
+      setWalletMenuOpen(true);
+      return;
+    }
 
     if (wrongNetwork) {
       switchChain({ chainId: configuredChainId });
@@ -139,6 +154,25 @@ function BadgeApp() {
       args: [BigInt(selectedBadge.id)],
       dataSuffix: baseBuilderDataSuffix,
     });
+  };
+
+  const handleShareIdentity = async () => {
+    if (!address || !visibleRewardClaimed) return;
+
+    const shareUrl = `${window.location.origin}?wallet=${address}&badge=${selectedBadge.id}`;
+    const shareText = `I claimed the ${selectedBadge.name} skill badge on SkillBadge.`;
+
+    if (navigator.share) {
+      await navigator.share({
+        title: 'SkillBadge',
+        text: shareText,
+        url: shareUrl,
+      });
+    } else {
+      await navigator.clipboard.writeText(`${shareText} ${shareUrl}`);
+    }
+
+    setIdentityShared(true);
   };
 
   return (
@@ -173,7 +207,7 @@ function BadgeApp() {
                       setWalletMenuOpen(false);
                     }}
                   >
-                    {connector.name}
+                    {getWalletMenuLabel(connector.name)}
                     <Wallet className="h-4 w-4 text-ember" />
                   </button>
                 ))}
@@ -236,7 +270,9 @@ function BadgeApp() {
                 ? 'Badge Claimed'
                 : writePending || txConfirming || switchPending
                   ? 'Claiming'
-                  : 'Claim Skill Badge'}
+                  : !isConnected
+                    ? 'Connect Wallet First'
+                    : 'Claim Skill Badge'}
             </button>
 
             {statusMessage ? <p className="mt-4 text-sm font-semibold text-ember">{statusMessage}</p> : null}
@@ -264,7 +300,11 @@ function BadgeApp() {
 
             <div className="mt-5 grid gap-3">
               {rewardSteps.map((step, index) => {
-                const complete = index === 0 || (index === 1 && isConnected) || (index === 2 && visibleRewardClaimed);
+                const complete =
+                  index === 0 ||
+                  (index === 1 && isConnected) ||
+                  (index === 2 && visibleRewardClaimed) ||
+                  (index === 3 && identityShared);
                 return (
                   <div key={step} className="flex items-center gap-3 rounded-lg border border-amber-100 bg-white p-3">
                     <div
@@ -286,6 +326,16 @@ function BadgeApp() {
                 Base App embedded wallet, Coinbase Wallet, MetaMask, OKX Wallet, and injected browser wallets.
               </p>
             </div>
+
+            {visibleRewardClaimed ? (
+              <button
+                className="mt-4 inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg border border-amber-200 bg-white px-4 text-sm font-bold transition hover:border-ember"
+                onClick={handleShareIdentity}
+              >
+                <Sparkles className="h-4 w-4 text-ember" />
+                {identityShared ? 'Identity Shared' : 'Share Skill Identity'}
+              </button>
+            ) : null}
           </aside>
         </div>
       </section>
