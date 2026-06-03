@@ -106,6 +106,7 @@ function BadgeApp() {
     hash: txHash,
     query: { enabled: Boolean(txHash) },
   });
+  const badgeSelectionLocked = visibleRewardClaimed || writePending || txConfirming;
 
   useEffect(() => {
     if (!txSuccess) return;
@@ -254,8 +255,13 @@ function BadgeApp() {
                   <button
                     key={badge.id}
                     className={`rounded-lg border p-3 text-left transition ${
-                      selected ? 'border-ember bg-orange-50' : 'border-amber-100 bg-white hover:border-amber-300'
+                      selected
+                        ? 'border-ember bg-orange-50'
+                        : badgeSelectionLocked
+                          ? 'cursor-not-allowed border-amber-100 bg-white opacity-60'
+                          : 'border-amber-100 bg-white hover:border-amber-300'
                     }`}
+                    disabled={badgeSelectionLocked}
                     onClick={() => setSelectedBadgeId(badge.id)}
                   >
                     <span className="text-xs font-bold uppercase text-ember">{badge.track}</span>
