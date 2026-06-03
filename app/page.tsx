@@ -156,6 +156,14 @@ function BadgeApp() {
     });
   };
 
+  const handleDisconnect = () => {
+    disconnect();
+    setWalletMenuOpen(false);
+    setInstantClaimedIds([]);
+    setIdentityShared(false);
+    setSelectedBadgeId(skillBadges[0].id);
+  };
+
   const handleShareIdentity = async () => {
     if (!address || !visibleRewardClaimed) return;
 
@@ -214,10 +222,7 @@ function BadgeApp() {
                 {isConnected ? (
                   <button
                     className="mt-1 flex w-full items-center justify-between rounded-md border-t border-amber-100 px-3 py-3 text-left text-sm font-semibold text-ember transition hover:bg-orange-50"
-                    onClick={() => {
-                      disconnect();
-                      setWalletMenuOpen(false);
-                    }}
+                    onClick={handleDisconnect}
                   >
                     Disconnect
                     <LogOut className="h-4 w-4" />
