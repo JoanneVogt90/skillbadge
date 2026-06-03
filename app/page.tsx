@@ -1,6 +1,6 @@
 'use client';
 
-import { Award, BadgeCheck, ChevronDown, LogOut, Sparkles, Wallet } from 'lucide-react';
+import { Award, BadgeCheck, ChevronDown, Compass, LogOut, ShieldCheck, Sparkles, Wallet } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { BaseError } from 'viem';
 import {
@@ -9,13 +9,14 @@ import {
   useConnect,
   useDisconnect,
   useReadContracts,
+  useSwitchChain,
   useWaitForTransactionReceipt,
   useWriteContract,
 } from 'wagmi';
 
 import { Providers } from '@/app/providers';
 import { skillBadgeAbi } from '@/lib/abi';
-import { contractAddress, contractConfigured, configuredChainId, primaryBadge, rewardSteps } from '@/lib/constants';
+import { contractAddress, contractConfigured, configuredChainId, rewardSteps, skillBadges } from '@/lib/constants';
 import { baseBuilderDataSuffix } from '@/lib/wagmi';
 
 function shortAddress(address: string) {
@@ -41,9 +42,13 @@ function BadgeApp() {
   const chainId = useChainId();
   const { connectors, connect, isPending: connectPending } = useConnect();
   const { disconnect } = useDisconnect();
+  const { switchChain, isPending: switchPending } = useSwitchChain();
   const [walletMenuOpen, setWalletMenuOpen] = useState(false);
-  const [rewardClaimed, setRewardClaimed] = useState(false);
+  const [instantClaimedIds, setInstantClaimedIds] = useState<number[]>([]);
   const [autoConnectTried, setAutoConnectTried] = useState(false);
+  const [selectedBadgeId, setSelectedBadgeId] = useState(skillBadges[0].id);
+
+  const selectedBadge = skillBadges.find((badge) => badge.id === selectedBadgeId) ?? skillBadges[0];
 
   const wrongNetwork = isConnected && chainId !== configuredChainId;
   const canUseContract = contractConfigured && isConnected && !wrongNetwork;
@@ -55,7 +60,7 @@ function BadgeApp() {
             address: contractAddress,
             abi: skillBadgeAbi,
             functionName: 'hasBadge',
-            args: [address, BigInt(primaryBadge.id)],
+            args: [address, BigInt(selectedBadge.id)],
           },
         ]
       : [],
@@ -63,7 +68,7 @@ function BadgeApp() {
   });
 
   const onchainClaimed = Boolean(badgeRead?.[0]?.result);
-  const visibleRewardClaimed = rewardClaimed || onchainClaimed;
+  const visibleRewardClaimed = instantClaimedIds.includes(selectedBadge.id) || onchainClaimed;
 
   const { writeContract, data: txHash, error: writeError, isPending: writePending } = useWriteContract();
   const { isLoading: txConfirming, isSuccess: txSuccess, error: receiptError } = useWaitForTransactionReceipt({
@@ -73,9 +78,9 @@ function BadgeApp() {
 
   useEffect(() => {
     if (!txSuccess) return;
-    setRewardClaimed(true);
+    setInstantClaimedIds((ids) => (ids.includes(selectedBadge.id) ? ids : [...ids, selectedBadge.id]));
     void refetchBadge();
-  }, [refetchBadge, txSuccess]);
+  }, [refetchBadge, selectedBadge.id, txSuccess]);
 
   useEffect(() => {
     if (autoConnectTried || isConnected || !isBaseAppBrowser()) return;
@@ -92,21 +97,25 @@ function BadgeApp() {
   }, [address, connectPending]);
 
   const statusMessage = wrongNetwork
-    ? `Switch to chain ${configuredChainId} to claim onchain.`
+    ? 'Switch to Base to write this badge onchain.'
     : !contractConfigured
-      ? 'Onchain claiming is waiting for a contract address. Your instant reward still works now.'
+      ? 'Onchain claiming is waiting for a contract address. Your instant badge preview still works now.'
       : getErrorMessage(writeError || receiptError);
 
   const handleClaim = () => {
-    setRewardClaimed(true);
+    setInstantClaimedIds((ids) => (ids.includes(selectedBadge.id) ? ids : [...ids, selectedBadge.id]));
 
+    if (wrongNetwork) {
+      switchChain({ chainId: configuredChainId });
+      return;
+    }
     if (!canUseContract || onchainClaimed) return;
 
     writeContract({
       address: contractAddress,
       abi: skillBadgeAbi,
       functionName: 'claimBadge',
-      args: [BigInt(primaryBadge.id)],
+      args: [BigInt(selectedBadge.id)],
       dataSuffix: baseBuilderDataSuffix,
     });
   };
@@ -117,9 +126,9 @@ function BadgeApp() {
         <header className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-ink text-white">
-              <Sparkles className="h-5 w-5" />
+              <ShieldCheck className="h-5 w-5" />
             </div>
-            <span className="text-base font-bold">Warm Badge</span>
+            <span className="text-base font-bold">SkillBadge</span>
           </div>
 
           <div className="relative">
@@ -167,40 +176,69 @@ function BadgeApp() {
         <div className="grid flex-1 items-center gap-6 py-6 md:grid-cols-[1fr_0.9fr] md:py-10">
           <section className="rounded-lg border border-amber-200 bg-white p-5 shadow-soft sm:p-7">
             <div className="inline-flex items-center gap-2 rounded-full bg-orange-50 px-3 py-1 text-sm font-semibold text-ember">
-              <Award className="h-4 w-4" />
-              Free Base reward
+              <Compass className="h-4 w-4" />
+              Onchain skill identity
             </div>
-            <h1 className="mt-5 text-4xl font-black leading-tight sm:text-5xl lg:text-6xl">Claim your first builder badge.</h1>
+            <h1 className="mt-5 text-4xl font-black leading-tight sm:text-5xl lg:text-6xl">
+              Claim a skill badge for your wallet.
+            </h1>
             <p className="mt-4 max-w-xl text-base leading-7 text-stone-600 sm:text-lg">
-              No token purchase, no relay protocol, no complex flow. Tap once to see your reward instantly, then optionally
-              attach it to your wallet on Base.
+              Pick a Web3 skill direction, get instant Skill XP, and attach a badge to your address on Base. No token
+              purchase and no WalletConnect flow required.
             </p>
+
+            <div className="mt-6 grid gap-3 sm:grid-cols-3">
+              {skillBadges.map((badge) => {
+                const selected = badge.id === selectedBadge.id;
+                return (
+                  <button
+                    key={badge.id}
+                    className={`rounded-lg border p-3 text-left transition ${
+                      selected ? 'border-ember bg-orange-50' : 'border-amber-100 bg-white hover:border-amber-300'
+                    }`}
+                    onClick={() => setSelectedBadgeId(badge.id)}
+                  >
+                    <span className="text-xs font-bold uppercase text-ember">{badge.track}</span>
+                    <span className="mt-1 block text-sm font-black leading-5">{badge.name}</span>
+                  </button>
+                );
+              })}
+            </div>
 
             <button
               className="mt-7 inline-flex h-14 w-full items-center justify-center gap-2 rounded-lg bg-ink px-5 text-base font-bold text-white shadow-soft transition hover:bg-stone-800 disabled:cursor-not-allowed disabled:bg-stone-300 sm:w-auto"
-              disabled={writePending || txConfirming}
+              disabled={writePending || txConfirming || switchPending}
               onClick={handleClaim}
             >
               {visibleRewardClaimed ? <BadgeCheck className="h-5 w-5" /> : <Award className="h-5 w-5" />}
-              {visibleRewardClaimed ? 'Reward Claimed' : writePending || txConfirming ? 'Claiming' : 'Claim Reward'}
+              {visibleRewardClaimed
+                ? 'Badge Claimed'
+                : writePending || txConfirming || switchPending
+                  ? 'Claiming'
+                  : 'Claim Skill Badge'}
             </button>
 
             {statusMessage ? <p className="mt-4 text-sm font-semibold text-ember">{statusMessage}</p> : null}
           </section>
 
           <aside className="rounded-lg border border-amber-200 bg-[#fffdf7] p-5 shadow-soft sm:p-6">
-            <p className="text-sm font-bold uppercase text-ember">Reward Preview</p>
+            <p className="text-sm font-bold uppercase text-ember">Identity Preview</p>
             <div className="mt-4 rounded-lg bg-ink p-5 text-white">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <p className="text-sm text-orange-100">{primaryBadge.name}</p>
-                  <p className="mt-3 text-3xl font-black">{primaryBadge.reward}</p>
+                  <p className="text-sm text-orange-100">{selectedBadge.track}</p>
+                  <p className="mt-3 text-3xl font-black">{selectedBadge.reward}</p>
                 </div>
                 <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-honey text-ink">
                   <Sparkles className="h-6 w-6" />
                 </div>
               </div>
-              <p className="mt-5 text-sm leading-6 text-orange-100">{primaryBadge.description}</p>
+              <p className="mt-4 text-xl font-black">{selectedBadge.name}</p>
+              <p className="mt-3 text-sm leading-6 text-orange-100">{selectedBadge.description}</p>
+              <div className="mt-5 rounded-lg bg-white/10 p-3">
+                <p className="text-xs font-bold uppercase text-orange-100">Wallet identity</p>
+                <p className="mt-1 break-all text-sm font-semibold">{address ? shortAddress(address) : 'Connect a wallet to show your address'}</p>
+              </div>
             </div>
 
             <div className="mt-5 grid gap-3">

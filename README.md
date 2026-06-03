@@ -1,12 +1,12 @@
-# Warm Badge
+# SkillBadge
 
-Warm Badge is a mobile-first Base miniapp for a free starter reward. Users can connect a wallet, tap one primary action, see an instant points reward, and optionally claim the starter badge onchain.
+SkillBadge is a mobile-first Base miniapp for skill identity verification and onchain resumes. Users choose Solidity Builder, Frontend Developer, or Base MiniApp Builder, claim a free skill badge, and show their Web3 skill identity with a wallet address.
 
 ## Features
 
 - English-only UI
 - Warm card-based layout for Base App embedded browsers and desktop
-- One primary action: Claim Reward
+- One primary action: Claim Skill Badge
 - Instant local reward before any token purchase or contract requirement
 - Native Wagmi configuration with Coinbase Wallet and injected wallets only
 - No RainbowKit, no WalletConnect Project ID, and no WalletConnect connector
@@ -43,8 +43,8 @@ cp .env.example .env.local
 Frontend variables:
 
 ```bash
-NEXT_PUBLIC_CONTRACT_ADDRESS=0xYourDeployedContract
-NEXT_PUBLIC_CHAIN_ID=84532
+NEXT_PUBLIC_CONTRACT_ADDRESS=0xFEE410f3ADC47c4979742Ca6EcaCe7a14838BBcB
+NEXT_PUBLIC_CHAIN_ID=8453
 NEXT_PUBLIC_BASE_BUILDER_DATA_SUFFIX=0xYourEncodedBuilderCode
 ```
 
@@ -56,7 +56,7 @@ BASE_SEPOLIA_RPC_URL=https://sepolia.base.org
 BASESCAN_API_KEY=your_basescan_api_key
 ```
 
-Use `NEXT_PUBLIC_CHAIN_ID=8453` when switching the frontend target to Base mainnet.
+The supplied contract address has code on Base mainnet, so the frontend defaults to `NEXT_PUBLIC_CHAIN_ID=8453`.
 
 ## Base Attribution
 
@@ -66,7 +66,11 @@ Offchain attribution is hardcoded in `app/layout.tsx`:
 <meta name="base:app_id" content="" />
 ```
 
-Replace the empty content with the base.dev Verify token after registration.
+The current app hardcodes the provided verify token:
+
+```tsx
+<meta name="base:app_id" content="6a1fd6434fbf682eb25dc0bd" />
+```
 
 Onchain attribution is configured in `lib/wagmi.ts`:
 

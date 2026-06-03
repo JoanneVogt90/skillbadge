@@ -19,7 +19,7 @@ const config = createConfig({
       },
     }),
     coinbaseWallet({
-      appName: 'Warm Badge',
+      appName: 'SkillBadge',
       preference: 'all',
     }),
     injected({ target: 'metaMask' }),
