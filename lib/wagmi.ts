@@ -6,7 +6,8 @@ import { configuredChainId } from './constants';
 
 export const selectedChain = configuredChainId === base.id ? base : baseSepolia;
 
-export const baseBuilderDataSuffix = (process.env.NEXT_PUBLIC_BASE_BUILDER_DATA_SUFFIX || '0x') as `0x${string}`;
+export const baseBuilderDataSuffix = (process.env.NEXT_PUBLIC_BASE_BUILDER_DATA_SUFFIX ||
+  '0x62635f626b76357233316c') as `0x${string}`;
 
 type BrowserWalletProvider = NonNullable<Window['ethereum']> & {
   isOKExWallet?: boolean;

@@ -45,7 +45,7 @@ Frontend variables:
 ```bash
 NEXT_PUBLIC_CONTRACT_ADDRESS=0xFEE410f3ADC47c4979742Ca6EcaCe7a14838BBcB
 NEXT_PUBLIC_CHAIN_ID=8453
-NEXT_PUBLIC_BASE_BUILDER_DATA_SUFFIX=0xYourEncodedBuilderCode
+NEXT_PUBLIC_BASE_BUILDER_DATA_SUFFIX=0x62635f626b76357233316c
 ```
 
 Contract deployment variables:
@@ -78,7 +78,7 @@ Onchain attribution is configured in `lib/wagmi.ts`:
 export const baseBuilderDataSuffix = '0x' as `0x${string}`;
 ```
 
-Set `NEXT_PUBLIC_BASE_BUILDER_DATA_SUFFIX` after base.dev returns the builder code, then redeploy. Every `writeContract` call must pass `dataSuffix`, and the current starter badge claim already does this.
+The current builder code is `bc_bkv5r31l`, encoded as `0x62635f626b76357233316c`. Every `writeContract` call must pass `dataSuffix`, and the current skill badge claim already does this.
 
 ## Run Locally
 
