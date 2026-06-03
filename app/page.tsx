@@ -37,6 +37,17 @@ function isBaseAppBrowser() {
   return userAgent.includes('base') || Boolean(ethereum?.isCoinbaseBrowser);
 }
 
+function getWalletMenuKey(name: string) {
+  const normalizedName = name.toLowerCase();
+
+  if (normalizedName.includes('okx')) return 'okx';
+  if (normalizedName.includes('metamask') || normalizedName.includes('matefox')) return 'metamask';
+  if (normalizedName.includes('coinbase')) return 'coinbase';
+  if (normalizedName.includes('base app')) return 'base-app';
+
+  return normalizedName.replace(/\s+/g, '-');
+}
+
 function BadgeApp() {
   const { address, isConnected } = useAccount();
   const chainId = useChainId();
@@ -49,6 +60,16 @@ function BadgeApp() {
   const [selectedBadgeId, setSelectedBadgeId] = useState(skillBadges[0].id);
 
   const selectedBadge = skillBadges.find((badge) => badge.id === selectedBadgeId) ?? skillBadges[0];
+  const walletMenuConnectors = useMemo(() => {
+    const seenWallets = new Set<string>();
+
+    return connectors.filter((connector) => {
+      const walletKey = getWalletMenuKey(connector.name);
+      if (seenWallets.has(walletKey)) return false;
+      seenWallets.add(walletKey);
+      return true;
+    });
+  }, [connectors]);
 
   const wrongNetwork = isConnected && chainId !== configuredChainId;
   const canUseContract = contractConfigured && isConnected && !wrongNetwork;
@@ -84,11 +105,11 @@ function BadgeApp() {
 
   useEffect(() => {
     if (autoConnectTried || isConnected || !isBaseAppBrowser()) return;
-    const embeddedConnector = connectors.find((connector) => connector.name.includes('Base App'));
+    const embeddedConnector = walletMenuConnectors.find((connector) => connector.name.includes('Base App'));
     if (!embeddedConnector) return;
     setAutoConnectTried(true);
     connect({ connector: embeddedConnector });
-  }, [autoConnectTried, connect, connectors, isConnected]);
+  }, [autoConnectTried, connect, walletMenuConnectors, isConnected]);
 
   const walletLabel = useMemo(() => {
     if (address) return shortAddress(address);
@@ -143,7 +164,7 @@ function BadgeApp() {
 
             {walletMenuOpen ? (
               <div className="absolute right-0 z-20 mt-2 w-64 rounded-lg border border-amber-200 bg-white p-2 shadow-soft">
-                {connectors.map((connector) => (
+                {walletMenuConnectors.map((connector) => (
                   <button
                     key={connector.uid}
                     className="flex w-full items-center justify-between rounded-md px-3 py-3 text-left text-sm font-semibold transition hover:bg-orange-50"
