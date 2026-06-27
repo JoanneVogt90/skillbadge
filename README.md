@@ -68,3 +68,13 @@ NEXT_PUBLIC_CONTRACT_ADDRESS=0xFEE410f3ADC47c4979742Ca6EcaCe7a14838BBcB
 NEXT_PUBLIC_CHAIN_ID=8453
 NEXT_PUBLIC_BASE_BUILDER_DATA_SUFFIX=0x62635f626b76357233316c
 ```
+
+Contract deployment variables:
+
+```bash
+PRIVATE_KEY=your_deployer_private_key_without_0x
+BASE_SEPOLIA_RPC_URL=https://sepolia.base.org
+BASESCAN_API_KEY=your_basescan_api_key
+```
+
+The supplied contract address has code on Base mainnet, so the frontend defaults to:
