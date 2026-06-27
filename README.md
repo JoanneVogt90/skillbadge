@@ -59,3 +59,12 @@ Copy the example environment file before running the app locally:
 
 ```bash
 cp .env.example .env.local
+```
+
+Frontend variables:
+
+```bash
+NEXT_PUBLIC_CONTRACT_ADDRESS=0xFEE410f3ADC47c4979742Ca6EcaCe7a14838BBcB
+NEXT_PUBLIC_CHAIN_ID=8453
+NEXT_PUBLIC_BASE_BUILDER_DATA_SUFFIX=0x62635f626b76357233316c
+```
