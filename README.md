@@ -190,3 +190,13 @@ npx hardhat verify --network baseSepolia 0xYourDeployedContract
 The constructor has no arguments.
 
 ## Project Notes
+
+SkillBadge is intentionally focused on a small set of skill identities.
+
+The interface should remain simple, readable, and optimized for mobile use.
+
+Wallet support should stay limited to the configured Wagmi connectors unless the project requirements change.
+
+When updating contract interactions, keep the `dataSuffix` behavior intact for claim transactions.
+
+When changing the configured contract address or chain ID, update the relevant environment variables and redeploy the frontend.
