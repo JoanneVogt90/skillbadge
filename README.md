@@ -78,3 +78,13 @@ BASESCAN_API_KEY=your_basescan_api_key
 ```
 
 The supplied contract address has code on Base mainnet, so the frontend defaults to:
+
+```bash
+NEXT_PUBLIC_CHAIN_ID=8453
+```
+
+## Base Attribution
+
+Offchain attribution is configured in `app/layout.tsx`.
+
+Example meta tag format:
