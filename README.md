@@ -138,3 +138,15 @@ npm run dev
 ```
 
 Open the local Next.js URL shown in your terminal.
+
+## Build
+
+Create a production build:
+
+```bash
+npm run build
+```
+
+## Deploy the Contract to Base Sepolia
+
+Make sure the deployer wallet has Base Sepolia ETH.
