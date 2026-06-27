@@ -28,3 +28,13 @@ The primary user action is to claim a skill badge.
 - Instant local reward experience before any contract requirement
 - Custom wallet menu
 - Wagmi configuration using Coinbase Wallet and injected wallets
+- No RainbowKit dependency
+- No WalletConnect connector
+- Explicit ERC-8021 `dataSuffix` support on `writeContract`
+- Base offchain attribution meta tag configured in `app/layout.tsx`
+
+## Tech Stack
+
+- Next.js
+- TypeScript
+- App Router
