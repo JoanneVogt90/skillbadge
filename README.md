@@ -98,3 +98,13 @@ The current app uses the following configured value:
 ```tsx
 <meta name="base:app_id" content="6a1fd6434fbf682eb25dc0bd" />
 ```
+
+Onchain attribution is configured in `lib/wagmi.ts`.
+
+Default format:
+
+```ts
+export const baseBuilderDataSuffix = '0x' as `0x${string}`;
+```
+
+The current builder code is:
