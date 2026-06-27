@@ -108,3 +108,13 @@ export const baseBuilderDataSuffix = '0x' as `0x${string}`;
 ```
 
 The current builder code is:
+
+```text
+bc_bkv5r31l
+```
+
+It is encoded as:
+
+```text
+0x62635f626b76357233316c
+```
