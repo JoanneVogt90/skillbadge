@@ -170,3 +170,13 @@ If you deploy to Base Sepolia, make sure the chain ID matches the target network
 ## Deploy the Frontend to Vercel
 
 1. Push this project to GitHub.
+2. Import the repository in Vercel.
+3. Set the frontend environment variables listed above.
+4. Use the default Next.js settings.
+
+Recommended Vercel settings:
+
+- Framework preset: Next.js
+- Build command: `npm run build`
+
+## BaseScan Verification Notes
