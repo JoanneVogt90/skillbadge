@@ -17,3 +17,14 @@ Users can select one of the supported skill identities:
 - Base MiniApp Builder
 
 The primary user action is to claim a skill badge.
+
+## Features
+
+- English-only interface
+- Mobile-first layout
+- Warm card-based visual design
+- Works in Base App embedded browsers and desktop browsers
+- Single primary action: Claim Skill Badge
+- Instant local reward experience before any contract requirement
+- Custom wallet menu
+- Wagmi configuration using Coinbase Wallet and injected wallets
