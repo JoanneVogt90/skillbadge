@@ -118,3 +118,14 @@ It is encoded as:
 ```text
 0x62635f626b76357233316c
 ```
+
+Every `writeContract` call should pass `dataSuffix`.
+
+The current skill badge claim already includes this configuration.
+
+## Run Locally
+
+Install dependencies:
+
+```bash
+npm install
