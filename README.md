@@ -150,3 +150,13 @@ npm run build
 ## Deploy the Contract to Base Sepolia
 
 Make sure the deployer wallet has Base Sepolia ETH.
+
+Then run:
+
+```bash
+npm run deploy:contract
+```
+
+The deployment script prints the deployed contract address.
+
+Add that address to your frontend environment file:
