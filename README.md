@@ -47,3 +47,15 @@ The primary user action is to claim a skill badge.
 ## Wallet Support
 
 The app exposes a custom wallet menu with the following connectors:
+
+- Base App / Browser Wallet through `injected()`
+- Coinbase Wallet through `coinbaseWallet()`
+- MetaMask through `injected({ target: 'metaMask' })`
+- OKX Wallet through `injected({ target: 'okxWallet' })`
+
+## Environment Variables
+
+Copy the example environment file before running the app locally:
+
+```bash
+cp .env.example .env.local
