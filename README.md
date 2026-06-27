@@ -88,3 +88,13 @@ NEXT_PUBLIC_CHAIN_ID=8453
 Offchain attribution is configured in `app/layout.tsx`.
 
 Example meta tag format:
+
+```tsx
+<meta name="base:app_id" content="" />
+```
+
+The current app uses the following configured value:
+
+```tsx
+<meta name="base:app_id" content="6a1fd6434fbf682eb25dc0bd" />
+```
