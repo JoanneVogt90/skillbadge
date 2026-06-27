@@ -38,3 +38,12 @@ The primary user action is to claim a skill badge.
 - Next.js
 - TypeScript
 - App Router
+- Wagmi
+- Viem
+- Tailwind CSS
+- Solidity
+- Hardhat
+
+## Wallet Support
+
+The app exposes a custom wallet menu with the following connectors:
