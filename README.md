@@ -19,3 +19,15 @@ Supported skill identities include:
 - Base MiniApp Builder
 
 The primary action in the app is:
+
+- Claim Skill Badge
+
+## Features
+
+- English-only interface
+- Mobile-first layout
+- Warm, card-based visual design
+- Support for Base App embedded browsers
+- Support for desktop browsers
+- Single primary action: `Claim Skill Badge`
+- Instant local reward experience before any contract requirement
