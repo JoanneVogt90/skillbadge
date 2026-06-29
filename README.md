@@ -31,3 +31,13 @@ The primary action in the app is:
 - Support for desktop browsers
 - Single primary action: `Claim Skill Badge`
 - Instant local reward experience before any contract requirement
+- Custom wallet menu
+- Wagmi configuration with Coinbase Wallet and injected wallets
+- No RainbowKit dependency
+- No WalletConnect connector
+- Explicit ERC-8021 `dataSuffix` support on `writeContract`
+- Base offchain attribution meta tag configured in `app/layout.tsx`
+
+## Tech Stack
+
+- Next.js
