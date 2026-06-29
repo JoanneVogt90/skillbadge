@@ -105,3 +105,15 @@ Example meta tag format:
 ```tsx
 <meta name="base:app_id" content="" />
 ```
+
+The current app uses this configured value:
+
+```tsx
+<meta name="base:app_id" content="6a1fd6434fbf682eb25dc0bd" />
+```
+
+Onchain attribution is configured in `lib/wagmi.ts`.
+
+Default format:
+
+```ts
