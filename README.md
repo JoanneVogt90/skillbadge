@@ -41,3 +41,14 @@ The primary action in the app is:
 ## Tech Stack
 
 - Next.js
+- TypeScript
+- App Router
+- Wagmi
+- Viem
+- Tailwind CSS
+- Solidity
+- Hardhat
+
+## Wallet Support
+
+SkillBadge uses a custom wallet menu.
