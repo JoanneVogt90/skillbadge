@@ -63,3 +63,14 @@ The configured connectors are:
 Wallet support should stay limited to these configured connectors unless the project requirements change.
 
 ## Environment Variables
+
+Copy the example environment file before running the app locally:
+
+```bash
+cp .env.example .env.local
+```
+
+Frontend variables:
+
+```bash
+NEXT_PUBLIC_CONTRACT_ADDRESS=0xFEE410f3ADC47c4979742Ca6EcaCe7a14838BBcB
