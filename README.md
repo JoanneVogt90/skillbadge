@@ -139,3 +139,13 @@ The current skill badge claim flow already includes this configuration.
 ## Run Locally
 
 Install dependencies:
+
+```bash
+npm install
+```
+
+Start the development server:
+
+```bash
+npm run dev
+```
