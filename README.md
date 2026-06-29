@@ -193,3 +193,13 @@ Recommended Vercel settings:
 - Build command: `npm run build`
 
 ## BaseScan Verification Notes
+
+After deploying the contract, verify it on BaseScan:
+
+```bash
+npx hardhat verify --network baseSepolia 0xYourDeployedContract
+```
+
+The constructor has no arguments.
+
+## Project Notes
