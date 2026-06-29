@@ -127,3 +127,15 @@ bc_bkv5r31l
 ```
 
 It is encoded as:
+
+```text
+0x62635f626b76357233316c
+```
+
+Every `writeContract` call should pass `dataSuffix`.
+
+The current skill badge claim flow already includes this configuration.
+
+## Run Locally
+
+Install dependencies:
