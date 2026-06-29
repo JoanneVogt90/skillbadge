@@ -171,3 +171,13 @@ npm run deploy:contract
 ```
 
 The deployment script prints the deployed contract address.
+
+Add that address to your frontend environment file:
+
+```bash
+NEXT_PUBLIC_CONTRACT_ADDRESS=0xYourDeployedContract
+```
+
+If you deploy to Base Sepolia, make sure the frontend chain ID matches the target network.
+
+## Deploy the Frontend to Vercel
