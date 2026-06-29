@@ -95,3 +95,13 @@ NEXT_PUBLIC_CHAIN_ID=8453
 ```
 
 If you use a different contract deployment, update the contract address and chain ID to match the target network.
+
+## Base Attribution
+
+Offchain attribution is configured in `app/layout.tsx`.
+
+Example meta tag format:
+
+```tsx
+<meta name="base:app_id" content="" />
+```
