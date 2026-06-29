@@ -203,3 +203,15 @@ npx hardhat verify --network baseSepolia 0xYourDeployedContract
 The constructor has no arguments.
 
 ## Project Notes
+
+SkillBadge is intentionally focused on a small set of skill identities.
+
+The interface should remain simple, readable, and optimized for mobile use.
+
+Keep the user journey centered on selecting a skill path and claiming a badge.
+
+When updating contract interactions, keep the `dataSuffix` behavior intact for claim transactions.
+
+When changing the configured contract address or chain ID, update the relevant environment variables and redeploy the frontend.
+
+Before deploying changes, run a local build to confirm the Next.js app compiles successfully.
