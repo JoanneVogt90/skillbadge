@@ -149,3 +149,15 @@ Start the development server:
 ```bash
 npm run dev
 ```
+
+Open the local Next.js URL shown in your terminal.
+
+## Build
+
+Create a production build:
+
+```bash
+npm run build
+```
+
+## Deploy the Contract to Base Sepolia
