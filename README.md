@@ -161,3 +161,13 @@ npm run build
 ```
 
 ## Deploy the Contract to Base Sepolia
+
+Make sure the deployer wallet has Base Sepolia ETH.
+
+Run the contract deployment script:
+
+```bash
+npm run deploy:contract
+```
+
+The deployment script prints the deployed contract address.
