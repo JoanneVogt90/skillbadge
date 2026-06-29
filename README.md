@@ -52,3 +52,14 @@ The primary action in the app is:
 ## Wallet Support
 
 SkillBadge uses a custom wallet menu.
+
+The configured connectors are:
+
+- Base App / browser wallet through `injected()`
+- Coinbase Wallet through `coinbaseWallet()`
+- MetaMask through `injected({ target: 'metaMask' })`
+- OKX Wallet through `injected({ target: 'okxWallet' })`
+
+Wallet support should stay limited to these configured connectors unless the project requirements change.
+
+## Environment Variables
