@@ -117,3 +117,13 @@ Onchain attribution is configured in `lib/wagmi.ts`.
 Default format:
 
 ```ts
+export const baseBuilderDataSuffix = '0x' as `0x${string}`;
+```
+
+The current builder code is:
+
+```text
+bc_bkv5r31l
+```
+
+It is encoded as:
