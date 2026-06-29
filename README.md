@@ -85,3 +85,13 @@ PRIVATE_KEY=your_deployer_private_key_without_0x
 BASE_SEPOLIA_RPC_URL=https://sepolia.base.org
 BASESCAN_API_KEY=your_basescan_api_key
 ```
+
+The supplied contract address has code on Base mainnet.
+
+For that reason, the frontend defaults to Base mainnet:
+
+```bash
+NEXT_PUBLIC_CHAIN_ID=8453
+```
+
+If you use a different contract deployment, update the contract address and chain ID to match the target network.
