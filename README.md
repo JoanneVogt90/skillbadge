@@ -9,3 +9,13 @@ Repository: [https://github.com/JoanneVogt90/skillbadge.git](https://github.com/
 ## Overview
 
 SkillBadge is designed to provide a simple, focused experience in Base App embedded browsers and desktop browsers.
+
+Users can select one of the supported skill identities and claim a skill badge from the app interface.
+
+Supported skill identities include:
+
+- Solidity Builder
+- Frontend Developer
+- Base MiniApp Builder
+
+The primary action in the app is:
